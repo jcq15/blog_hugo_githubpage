@@ -1,0 +1,26 @@
+Description = "欢迎来到沙雕园。本博客要素较多，包括但不限于数学、编程、游戏、吐槽、冲塔、科普、整活。"
+Keywords =  "博客, 数学, 编程, 整活, 科普, 搞笑, 技术, 分享"
+Subtitle = "沙雕使人进步。"
+AuthorImg = "/img/avatar.png"
+AuthorName = "精神病人"
+Introduce = "精神病人欢乐多!"
+DateFormat = "2006-01-02"
+YearFormat = "2006年"
+MonthFormat = "01-02"
+
+ArticleDeclContent = "本博客文章除特别声明外，均采用 <a href='https://creativecommons.org/licenses/by-nc-sa/3.0/' target='_blank' style='text-decoration: underline;'>CC BY-NC-SA 3.0</a>许可协议，转载请注明出处！"
+
+[Footer]
+  StorageLink = "https://github.com/jcq15/jcq15.github.io"
+  StorageName = "Github 仓库"
+  # ICPLink = "http://beian.miit.gov.cn"
+  # ICPNo = "粤 ICP 备 18047355 号"
+
+[[Socials]]
+  Name = "GitHub"
+  Icon = "github"
+  URL = "https://github.com/jcq15/"
+
+#[[Links]]
+#  Name = "Nutz"
+#  Permalink = "https://nutzam.com/"
