@@ -1,0 +1,1 @@
+{{ define "main_content" }}<h1># {{ .Title }}</h1>{{ range (.Paginate .Pages.ByDate.Reverse 10000).Pages }}{{ partial "garden-entry.html" . }}{{ end }}{{ end }}

@@ -1,0 +1,6 @@
+<nav class="filters" aria-label="内容类型">
+  <a{{ if .IsHome }} aria-current="page"{{ end }} href="{{ .Site.Home.RelPermalink }}#timeline">全部</a>
+  <a{{ if eq .Section "post" }} aria-current="page"{{ end }} href="{{ "post/" | relLangURL }}">长文章</a>
+  <a{{ if eq .Section "moments" }} aria-current="page"{{ end }} href="{{ "moments/" | relLangURL }}">短动态</a>
+  <a href="{{ "index.xml" | relLangURL }}">RSS ↗</a>
+</nav>

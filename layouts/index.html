@@ -1,0 +1,6 @@
+{{ define "main_content" }}
+{{ $posts := where .Site.RegularPages "Section" "post" }}
+<section class="welcome"><p class="eyebrow">一个人的互联网角落 · SINCE 2010</p><h1>沙雕使人进步<span>。</span></h1><p>数学、编程、游戏，还有不值得写成长文的日常。<br>认真想，也随便记。</p><a class="text-link" href="{{ "about.html" | relLangURL }}">认识一下这里的主人 ↗</a></section>
+<section aria-labelledby="latest"><div class="section-heading"><h2 id="latest">最近写的</h2><a href="{{ "post/" | relLangURL }}">全部文章 ↗</a></div><div class="latest-grid">{{ range first 2 $posts.ByDate.Reverse }}<article class="latest-card"><div class="meta">{{ .Date.Format "2006.01.02" }} · {{ range first 1 (.GetTerms "categories") }}{{ .Title }}{{ end }}</div><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3><p>{{ .Summary | plainify | truncate 95 }}</p><a class="read-more" href="{{ .RelPermalink }}">读一读 ↗</a></article>{{ end }}</div></section>
+<section class="timeline-section" aria-labelledby="timeline"><div class="section-heading"><h2 id="timeline">这些年，这些事</h2><span class="muted">文章与片刻，按时间留下来</span></div>{{ partial "garden-filters.html" . }}{{ $stream := where .Site.RegularPages "Section" "in" (slice "post" "moments") }}{{ $pager := .Paginate $stream.ByDate.Reverse 5 }}{{ range $pager.Pages }}{{ partial "garden-entry.html" . }}{{ end }}{{ partial "garden-pagination.html" . }}</section>
+{{ end }}

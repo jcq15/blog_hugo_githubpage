@@ -1,0 +1,9 @@
+{
+  "source_fetch": "https://github.com/jcq15/blog_hugo_githubpage.git",
+  "source_push": "git@github.com:jcq15/blog_hugo_githubpage.git",
+  "public_fetch": "https://github.com/jcq15/jcq15.github.io.git",
+  "public_push": "git@github.com:jcq15/jcq15.github.io.git",
+  "theme_fetch": "https://github.com/elkan1788/hugo-theme-next.git",
+  "branch": "master",
+  "site": "https://blog.shadiao.win/"
+}
