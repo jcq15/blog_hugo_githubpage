@@ -231,6 +231,15 @@ def commit_if_changed(repo, message, identity, env):
     return git(repo, 'rev-parse', 'HEAD', env=env)
 
 
+def clone_public(root, public, config, env, testing):
+    clone_mode = ['--shared'] if testing else ['--depth', '1']
+    # Set this BEFORE checkout: setting it afterwards cannot undo conversions
+    # inherited from Windows system Git config and would alter archived bytes.
+    git(root, '-c', 'core.autocrlf=false', 'clone', *clone_mode, '--single-branch',
+        '--branch', config['branch'], config['public_fetch'], public, env=env)
+    git(public, 'config', 'core.autocrlf', 'false', env=env)
+
+
 def assemble(source, public, candidate, config, env, documents=()):
     baseline = file_map(public)
     before_domain = public / 'CNAME'
@@ -356,9 +365,7 @@ def publish(root, args):
                 dest.write_bytes(data)
             source_sha = commit_if_changed(source, 'Publish selected blog changes', identity, env)
             ensure_theme(root, source, config, env)
-            clone_mode = ['--shared'] if testing else ['--depth', '1']
-            git(root, 'clone', *clone_mode, '--single-branch', '--branch', config['branch'], config['public_fetch'], public, env=env)
-            git(public, 'config', 'core.autocrlf', 'false', env=env)
+            clone_public(root, public, config, env, testing)
             public_base = git(public, 'rev-parse', 'HEAD', env=env)
             report.update(source_commit=source_sha, public_base=public_base)
             report.update(assemble(source, public, candidate, config, env, documents=documents))
