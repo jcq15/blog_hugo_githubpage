@@ -1,7 +1,7 @@
 ---
 title: "打工人、牛马、社畜？你配不上尊严，是因为你先跪了"
 date: 2025-05-08T10:30:00+08:00
-draft: false
+draft: true
 tags: ["敢想"]
 categories: ['敢想']
 ---
