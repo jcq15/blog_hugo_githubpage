@@ -1,0 +1,4 @@
+{{ $lines := 8 }}{{ with .page.Site.Params.Moments }}{{ if isset . "collapselines" }}{{ $lines = int .CollapseLines }}{{ end }}{{ end }}
+<div class="moment-content" data-moment data-collapse-lines="{{ if .collapse }}{{ $lines }}{{ else }}0{{ end }}">
+  <div class="prose moment-body" data-moment-text>{{ .page.Content }}</div>
+</div>

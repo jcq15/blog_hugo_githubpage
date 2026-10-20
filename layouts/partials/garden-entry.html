@@ -1,1 +1,18 @@
-<article class="timeline-entry"><div class="timeline-date"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time><span>{{ if eq .Section "moments" }}片刻{{ else }}文章{{ end }}{{ if .Draft }} · 示例草稿{{ end }}</span></div><div class="timeline-body"><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>{{ if eq .Section "moments" }}<div class="prose moment-body">{{ .Content }}</div>{{ else }}<p>{{ .Summary | plainify | truncate 130 }}</p>{{ end }}<a class="read-more" href="{{ .RelPermalink }}">{{ if eq .Section "moments" }}独立链接与评论{{ else }}阅读全文{{ end }} ↗</a></div></article>
+{{ $isMoment := eq .Section "moments" }}
+{{ $date := .Date }}{{ if $isMoment }}{{ $date = partial "beijing-date.html" .Date }}{{ end }}
+<article class="timeline-entry{{ if $isMoment }} moment-entry{{ end }}">
+  <div class="timeline-date">
+    <time datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $date.Format "2006.01.02" }}</time>
+    {{ if $isMoment }}<time class="moment-clock" datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}" title="北京时间">{{ $date.Format "15:04" }}</time>{{ end }}
+    <span>{{ if $isMoment }}片刻{{ else }}文章{{ end }}{{ if .Draft }} · 示例草稿{{ end }}</span>
+  </div>
+  <div class="timeline-body">
+    {{ if $isMoment }}
+      {{ partial "moment-content.html" (dict "page" . "collapse" true) }}
+    {{ else }}
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p>{{ .Summary | plainify | truncate 130 }}</p>
+    {{ end }}
+    <a class="read-more" href="{{ .RelPermalink }}">{{ if $isMoment }}独立链接与评论{{ else }}阅读全文{{ end }} ↗</a>
+  </div>
+</article>

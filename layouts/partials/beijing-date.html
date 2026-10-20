@@ -1,0 +1,4 @@
+{{/* Beijing time is UTC+08:00. Convert via UTC so source offsets and the build
+     machine's timezone cannot affect the display; compatible with Hugo 0.101. */}}
+{{ $wallTime := .UTC.Add (time.ParseDuration "8h") }}
+{{ return (time.AsTime (printf "%s+08:00" ($wallTime.Format "2006-01-02T15:04:05"))) }}
