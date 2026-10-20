@@ -1,0 +1,13 @@
++++
+title = "#蹲坑沉思 #每日迷思 #生活妙招 #好喝的 今天在巨酸的柠檬汁…"
+date = "2023-12-31T03:43:11+08:00"
+draft = false
+tags = ["好喝的", "每日迷思", "生活妙招", "蹲坑沉思"]
+categories = ["闭社存档"]
+closed_social_import = true
+closed_social_id = "https://thu.closed.social/users/jcq15/statuses/111671075865738235"
+closed_social_url = "https://thu.closed.social/@jcq15/111671075865738235"
+closed_social_sensitive = false
++++
+
+<p><a href="https://thu.closed.social/tags/%E8%B9%B2%E5%9D%91%E6%B2%89%E6%80%9D" rel="noopener noreferrer">#<span>蹲坑沉思</span></a> <a href="https://thu.closed.social/tags/%E6%AF%8F%E6%97%A5%E8%BF%B7%E6%80%9D" rel="noopener noreferrer">#<span>每日迷思</span></a> <a href="https://thu.closed.social/tags/%E7%94%9F%E6%B4%BB%E5%A6%99%E6%8B%9B" rel="noopener noreferrer">#<span>生活妙招</span></a> <a href="https://thu.closed.social/tags/%E5%A5%BD%E5%96%9D%E7%9A%84" rel="noopener noreferrer">#<span>好喝的</span></a>  今天在巨酸的柠檬汁儿里加了一些小苏打，酸味下降了，并且还有了一点儿汽水儿的感觉。于是有了自制汽水的想法。以下是一些可能的方案 <img src="/closed-social-emoji/68996c9cf4c6db7d8438.png" alt=":doge_a1:" title=":doge_a1:" class="closed-social-emoji" width="24" height="24" style="display:inline-block;width:1.3em;height:1.3em;margin:0;vertical-align:-.2em;border-radius:0"> （未经过尝试）：</p><p>版本1：柠檬酸+小苏打<br>版本2：柠檬酸+小苏打+碳酸氢钾，用一部分碳酸氢钾替代碳酸氢钠，可以防止钠摄入过多。不过比例和用量要掌握好，钾过量更危（<br>版本3：柠檬酸+碳酸钙，产生二氧化碳的同时还能补钙！许多钙片的成分就是碳酸钙和柠檬酸钙！但柠檬酸比较弱，不知能否快速反应产生足够气泡，需要做实验 <img src="/closed-social-emoji/2ed4d525f5ad0fdaa44f.png" alt=":annoyingdog:" title=":annoyingdog:" class="closed-social-emoji" width="24" height="24" style="display:inline-block;width:1.3em;height:1.3em;margin:0;vertical-align:-.2em;border-radius:0"> <br>版本4（纯整活，请勿尝试）：盐酸+任何碳酸盐，反正胃里也有盐酸（大误）</p>
