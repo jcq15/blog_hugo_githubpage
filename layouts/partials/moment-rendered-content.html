@@ -1,0 +1,20 @@
+{{- /* Resolve imported hashtag links through Hugo's actual taxonomy URLs.
+     This also applies to future imports without changing managed source files. */ -}}
+{{- $content := string .Content -}}
+{{- $terms := dict -}}
+{{- range .GetTerms "tags" -}}
+  {{- $terms = merge $terms (dict (lower .LinkTitle) .RelPermalink) -}}
+{{- end -}}
+{{- range findRE `(?is)<a\b[^>]*\bhref=["']https?://(?:[^/"']+\.)?closed\.social/tags/[^"']*["'][^>]*>.*?</a>` $content -}}
+  {{- $anchor := . -}}
+  {{- $label := trim (htmlUnescape (plainify $anchor)) " \t\r\n" -}}
+  {{- if hasPrefix $label "#" -}}
+    {{- $name := lower (trim (strings.TrimPrefix "#" $label) " \t\r\n") -}}
+    {{- $replacement := replaceRE `(?is)</?a\b[^>]*>` "" $anchor -}}
+    {{- with index $terms $name -}}
+      {{- $replacement = replaceRE `(?i)\bhref=(?:"[^"]*"|'[^']*')` (printf `href="%s"` .) $anchor -}}
+    {{- end -}}
+    {{- $content = replace $content $anchor $replacement -}}
+  {{- end -}}
+{{- end -}}
+{{- return ($content | safeHTML) -}}
