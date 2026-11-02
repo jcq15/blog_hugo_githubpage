@@ -1,0 +1,3 @@
+{{ if not .Site.IsServer }}{{ with .Site.Params.SEO.cloudflareToken }}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{ dict "token" . | jsonify }}'></script>
+{{ end }}{{ end }}

@@ -42,3 +42,10 @@
 [Moments]
   # 列表正文超过此行数时折叠；0 表示不折叠。配图不计入行数。
   CollapseLines = 8
+
+[SEO]
+  # 仅填写后台提供的公开验证值；不要填账号密码或 API 密钥。
+  googleVerification = "5Q_jQD9yAj53GdiE-ehjjSvxcg-lkJw6tB5yCULT_EE"
+  bingVerification = ""
+  # Cloudflare 已自动注入时保持为空，避免重复统计。
+  cloudflareToken = ""

@@ -1,5 +1,6 @@
 ---
 title: "一触即达：用 YubiKey 打造 Windows 自动解锁与 SSH 安全登录"
+description: "在 Windows 11 上配置 YubiKey 静态密码输入，并用 PIV、OpenSC 和 PKCS#11 实现 SSH 硬件密钥登录，记录双钥匙备份、路径空格等实际踩坑。"
 date: 2025-04-17
 draft: false
 tags: ["技术"]

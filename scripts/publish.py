@@ -7,6 +7,7 @@ from contextlib import contextmanager
 import csv
 import datetime as dt
 import hashlib
+import html
 import io
 import json
 import os
@@ -240,6 +241,31 @@ def clone_public(root, public, config, env, testing):
     git(public, 'config', 'core.autocrlf', 'false', env=env)
 
 
+def archived_seo(path, rel, site):
+    """Keep historical content/routes, normalize only discovery metadata."""
+    if not rel.endswith('.html'):
+        return
+    text = path.read_text(encoding='utf-8')
+    if re.search(r'http-equiv=[\"\']?refresh', text, re.I):
+        return
+    route = rel[:-10] if rel.endswith('index.html') else rel
+    canonical = site + urllib.parse.quote(route, safe='/')
+    text = re.sub(r'<link\b(?=[^>]*\brel=[\"\']?canonical)[^>]*>', '', text, flags=re.I)
+    metadata = '<link rel="canonical" href="' + html.escape(canonical, quote=True) + '">'
+    # English demo content and retired theme sample taxonomies remain accessible.
+    samples = ('post/markdown-syntax/', 'tags/css/', 'tags/html/', 'tags/markdown/', 'tags/马克当/', 'categories/syntax/', 'categories/themes/')
+    if rel.startswith('en/') or any(rel.startswith(x) for x in samples):
+        text = re.sub(r'<meta\b(?=[^>]*\bname=[\"\']?robots)[^>]*>', '', text, flags=re.I)
+        metadata += '<meta name="robots" content="noindex,follow">'
+    if not re.search(r'<meta\b[^>]*name=[\"\']?description[^>]*content=[\"\']?[^\"\' >]', text, re.I):
+        title = re.search(r'<title>(.*?)</title>', text, re.I | re.S)
+        description = html.unescape(title.group(1)) if title else '沙雕园历史文章'
+        text = re.sub(r'<meta\b(?=[^>]*\bname=[\"\']?description)[^>]*>', '', text, flags=re.I)
+        metadata = '<meta name="description" content="' + html.escape(description, quote=True) + '">' + metadata
+    text = re.sub(r'</head>', lambda m: metadata + m.group(), text, count=1, flags=re.I)
+    path.write_text(text, encoding='utf-8', newline='\n')
+
+
 def assemble(source, public, candidate, config, env, documents=()):
     baseline = file_map(public)
     before_domain = public / 'CNAME'
@@ -269,6 +295,7 @@ def assemble(source, public, candidate, config, env, documents=()):
             dest = candidate / rel
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(public / rel, dest)
+            archived_seo(dest, rel, config['site'])
             archived.append(rel)
     (candidate / 'CNAME').write_text(expected_domain + '\n', encoding='utf-8', newline='\n')
     (candidate / '.nojekyll').write_text('', encoding='utf-8')

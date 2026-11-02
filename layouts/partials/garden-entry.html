@@ -2,7 +2,7 @@
 {{ $date := .Date }}{{ if $isMoment }}{{ $date = partial "beijing-date.html" .Date }}{{ end }}
 <article class="timeline-entry{{ if $isMoment }} moment-entry{{ end }}">
   <div class="timeline-date">
-    <time datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $date.Format "2006.01.02" }}</time>
+    {{ if $isMoment }}<time datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $date.Format "2006.01.02" }}</time>{{ else }}<span title="用于展示顺序；真实发表时间以文章内明确标注为准">排序 {{ $date.Format "2006.01.02" }}</span>{{ end }}
     {{ if $isMoment }}<time class="moment-clock" datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}" title="北京时间">{{ $date.Format "15:04" }}</time>{{ end }}
     <span>{{ if $isMoment }}片刻{{ else }}文章{{ end }}{{ if .Draft }} · 示例草稿{{ end }}</span>
   </div>

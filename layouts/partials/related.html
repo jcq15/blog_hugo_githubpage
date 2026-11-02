@@ -1,0 +1,1 @@
+{{ if eq .Section "post" }}{{ $related := (where .Site.RegularPages "Section" "post").Related . | first 4 }}{{ with $related }}<nav class="related" aria-label="相关文章"><h2>接着读</h2><ul>{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul></nav>{{ end }}{{ end }}

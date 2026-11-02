@@ -1,5 +1,5 @@
 Title =  "Shadiao Garden"
-BaseUrl = "/"
+BaseUrl = "https://blog.shadiao.win/"
 
 DefaultContentLanguage = "zh-cn"
 LanguageCode = "zh-CN"
@@ -28,8 +28,6 @@ ignoreErrors = ["error-remote-getjson"]
 
 [sitemap]
   filename = "sitemap.xml"
-  changefreq = "weekly"
-  priority = 0.5
 
 [outputFormats]
   [outputFormats.SearchIndex]

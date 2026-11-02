@@ -1,0 +1,1 @@
+{{ with .Params.actualPublished }}<time datetime="{{ (time .).Format "2006-01-02T15:04:05Z07:00" }}">发表于 {{ (time .).Format "2006.01.02" }}</time>{{ else }}排序日期 {{ .Date.Format "2006.01.02" }}{{ end }}{{ with .Params.actualModified }} · 更新于 <time datetime="{{ (time .).Format "2006-01-02T15:04:05Z07:00" }}">{{ (time .).Format "2006.01.02" }}</time>{{ end }}

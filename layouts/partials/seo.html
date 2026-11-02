@@ -1,0 +1,46 @@
+{{- $url := .Permalink -}}
+{{- $title := .Title -}}
+{{- if .IsHome }}{{ $title = .Site.Title }}{{ end -}}
+{{- $description := .Description -}}
+{{- if not $description -}}
+  {{- if .IsPage }}{{ $description = .Summary | plainify | htmlUnescape }}
+  {{- else if .IsHome }}{{ $description = .Site.Params.Description }}
+  {{- else }}{{ $description = printf "%s：浏览沙雕园的文章与片刻。" .Title }}{{ end -}}
+{{- end -}}
+{{- $description = replaceRE `\s+` " " $description | truncate 160 -}}
+{{- $noindex := or .Site.IsServer (eq .Site.Language.Lang "en") .Params.noindex (eq .Kind "404") -}}
+{{- $pager := false -}}
+{{- if .IsHome }}{{ $pager = .Paginate (where .Site.RegularPages "Section" "in" (slice "post" "moments")).ByDate.Reverse 5 }}
+{{- else if eq .Kind "section" }}{{ $pager = .Paginate .RegularPages.ByDate.Reverse 15 }}
+{{- else if eq .Kind "term" }}{{ $pager = .Paginate .Pages.ByDate.Reverse 10000 }}{{ end -}}
+{{- if $pager -}}
+  {{- with $pager -}}{{- if gt .PageNumber 1 -}}
+    {{- $url = .URL | absURL -}}{{- $title = printf "%s · 第 %d 页" $title .PageNumber -}}
+    {{- $description = printf "%s 第 %d 页。" $description .PageNumber -}}
+  {{- end -}}{{- end -}}
+{{- end -}}
+<title>{{ $title }}{{ if not .IsHome }} - {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ $description }}">
+<link rel="canonical" href="{{ $url }}">
+{{ if $noindex }}<meta name="robots" content="noindex,follow">{{ end }}
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:url" content="{{ $url }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:locale" content="{{ if eq .Site.Language.Lang "en" }}en_US{{ else }}zh_CN{{ end }}">
+{{ $article := and .IsPage (in (slice "post" "moments") .Section) }}
+<meta property="og:type" content="{{ if $article }}article{{ else }}website{{ end }}">
+<meta name="twitter:card" content="summary">
+{{ $image := "" }}{{ with .Params.images }}{{ $image = index . 0 | absURL }}{{ end }}
+{{ if not $image }}{{ with .Resources.GetMatch "image-*" }}{{ $image = .Permalink }}{{ end }}{{ end }}
+{{ with $image }}<meta property="og:image" content="{{ . }}">{{ end }}
+{{ if and $article (not $noindex) }}
+{{ $schema := dict "@context" "https://schema.org" "@type" "BlogPosting" "headline" .Title "description" $description "url" $url "mainEntityOfPage" (dict "@type" "WebPage" "@id" $url) "inLanguage" .Site.Language.Lang "author" (dict "@type" "Person" "name" .Site.Params.AuthorName "url" ("about.html" | absURL)) }}
+{{ with $image }}{{ $schema = merge $schema (dict "image" (slice .)) }}{{ end }}
+{{ with .Params.actualPublished }}{{ $date := (time .).Format "2006-01-02T15:04:05Z07:00" }}{{ $schema = merge $schema (dict "datePublished" $date) }}<meta property="article:published_time" content="{{ $date }}">{{ end }}
+{{ with .Params.actualModified }}{{ $date := (time .).Format "2006-01-02T15:04:05Z07:00" }}{{ $schema = merge $schema (dict "dateModified" $date) }}<meta property="article:modified_time" content="{{ $date }}">{{ end }}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{ end }}
+{{ with .Site.Params.SEO.googleVerification }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
+{{ with .Site.Params.SEO.bingVerification }}<meta name="msvalidate.01" content="{{ . }}">{{ end }}
+

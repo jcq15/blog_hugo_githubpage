@@ -17,4 +17,11 @@
     {{- $content = replace $content $anchor $replacement -}}
   {{- end -}}
 {{- end -}}
+{{- range .Resources.ByType "image" -}}
+  {{- if in (slice "jpeg" "png" "gif" "webp") .MediaType.SubType -}}
+    {{- $needle := printf `<img src="%s"` .RelPermalink -}}
+    {{- $replacement := printf `<img width="%d" height="%d" decoding="async" src="%s"` .Width .Height .RelPermalink -}}
+    {{- $content = replace $content $needle $replacement -}}
+  {{- end -}}
+{{- end -}}
 {{- return ($content | safeHTML) -}}

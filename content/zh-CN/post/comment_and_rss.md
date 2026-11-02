@@ -6,13 +6,13 @@ tags: ["更新"]
 categories: ["更新"]
 ---
 
-太好了，立刻订阅！https://blog.shadiao.online/index.xml
+太好了，立刻订阅！https://blog.shadiao.win/index.xml
 
 <!--more-->
 
 如题。
 
-RSS 订阅地址：https://blog.shadiao.online/index.xml，也可以点击左侧的“首页”，然后点击头像下面的“RSS订阅”。
+RSS 订阅地址：https://blog.shadiao.win/index.xml，也可以点击左侧的“首页”，然后点击头像下面的“RSS订阅”。
 
 平论采用了 utterances，使用 gayhub 登录就能平论了。
 

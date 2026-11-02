@@ -1,0 +1,5 @@
+{{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>{{ .Title }} - {{ .Site.Title }}</title><link>{{ .Permalink }}</link><description>{{ .Site.Params.Description }}</description><language>{{ .Site.Language.Lang }}</language>{{ with .OutputFormats.Get "RSS" }}<atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml"/>{{ end }}
+{{ $pages := .RegularPages }}{{ if .IsHome }}{{ $pages = where .Site.RegularPages "Section" "in" (slice "post" "moments") }}{{ end }}
+{{ range first 50 $pages.ByDate.Reverse }}{{ if not .Params.noindex }}<item><title>{{ .Title }}</title><link>{{ .Permalink }}</link><guid>{{ .Permalink }}</guid>{{ with .Params.actualPublished }}<pubDate>{{ (time .).Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>{{ end }}<description>{{ .Content | html }}</description></item>{{ end }}{{ end }}
+</channel></rss>
