@@ -165,7 +165,7 @@ NSAID 是一大类药物，但对于生活中自己处理的常见病，使用**
 
 1. 【科普】感冒了怎么办 https://mp.weixin.qq.com/s/bUmmOi6Po9HwFwtHHV8ZHw
 2. Common cold - Wikipedia https://en.wikipedia.org/wiki/Common_cold
-3. https://www.msdmanuals.cn/home/infections/respiratory-viruses/common-cold?query=%E6%84%9F%E5%86%92
+3. https://www.msdmanuals.cn/home/infections/respiratory-virus-infections/common-cold?query=%E6%84%9F%E5%86%92
 4. https://dxy.com/column/7878
 5. https://dxy.com/column/4707
 6. https://dxy.com/disease/9806/detail

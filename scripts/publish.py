@@ -248,6 +248,7 @@ def archived_seo(path, rel, site):
     text = path.read_text(encoding='utf-8')
     if re.search(r'http-equiv=[\"\']?refresh', text, re.I):
         return
+    text = re.sub(r'(href=["\']?)https?://blog\.shadiao\.online(?=[/"\' >])', r'\1https://blog.shadiao.win', text, flags=re.I)
     route = rel[:-10] if rel.endswith('index.html') else rel
     canonical = site + urllib.parse.quote(route, safe='/')
     text = re.sub(r'<link\b(?=[^>]*\brel=[\"\']?canonical)[^>]*>', '', text, flags=re.I)

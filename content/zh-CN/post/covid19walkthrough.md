@@ -112,5 +112,5 @@ categories: ['科普']
 
 1. [COVID-19 - 感染- 《默沙东诊疗手册大众版》](https://www.msdmanuals.cn/home/infections/covid-19/covid-19)
 2. [【科普】感冒了怎么办- 精神病人欢乐多](https://mp.weixin.qq.com/s/bUmmOi6Po9HwFwtHHV8ZHw)
-3. [常见疾病及常备药物- 沙雕园](https://blog.shadiao.online/post/changyongyao/)
+3. [常见疾病及常备药物- 沙雕园](https://blog.shadiao.win/post/changyongyao/)
 4. [连花清瘟口罩不能预防新冠，还可能带来严重恶果- 老爸讲科学](https://mp.weixin.qq.com/s/bZWVlV1ZXxGLJXoujwkXgg)
