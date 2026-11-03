@@ -248,6 +248,9 @@ def archived_seo(path, rel, site):
     text = path.read_text(encoding='utf-8')
     if re.search(r'http-equiv=[\"\']?refresh', text, re.I):
         return
+    text = re.sub(r'<a\b[^>]*\bhref=["\']?/en/[^>]*>English</a>', '', text, flags=re.I)
+    if rel == 'post/newurlandregularlyupdate/index.html':
+        text = re.sub(r'旧域名（<a\b[^>]*>https?://blog\.shadiao\.online/?</a>\s*）', '旧域名', text)
     text = re.sub(r'(href=["\']?)https?://blog\.shadiao\.online(?=[/"\' >])', r'\1https://blog.shadiao.win', text, flags=re.I)
     route = rel[:-10] if rel.endswith('index.html') else rel
     canonical = site + urllib.parse.quote(route, safe='/')
@@ -269,6 +272,8 @@ def archived_seo(path, rel, site):
 
 def assemble(source, public, candidate, config, env, documents=()):
     baseline = file_map(public)
+    # Only the retired English edition may disappear from the published baseline.
+    retired = [rel for rel in baseline if rel.startswith('en/')]
     before_domain = public / 'CNAME'
     expected_domain = config['site'].split('://', 1)[1].rstrip('/')
     if before_domain.exists() and before_domain.read_text().strip() != expected_domain:
@@ -276,6 +281,12 @@ def assemble(source, public, candidate, config, env, documents=()):
     # Unique empty destination: a failed build can never reuse a previous release.
     run(['hugo', '--destination', candidate, '--baseURL', config['site']], source, env)
     built = file_map(candidate)
+    if any(rel.startswith('en/') for rel in built):
+        raise PublishError('The build unexpectedly contains retired English paths.')
+    # Keep the previously submitted child sitemap usable after switching to one language.
+    (candidate / 'zh-cn').mkdir(exist_ok=True)
+    shutil.copyfile(candidate / 'sitemap.xml', candidate / 'zh-cn/sitemap.xml')
+    built['zh-cn/sitemap.xml'] = built['sitemap.xml']
     if not all((candidate / p).is_file() for p in ('index.html', 'sitemap.xml', 'index.xml')):
         raise PublishError('Build is missing required root outputs.')
     if documents:
@@ -292,7 +303,7 @@ def assemble(source, public, candidate, config, env, documents=()):
                 raise PublishError('Selected manuscript did not produce fresh HTML (future/expired/headless?): ' + rel)
     archived = []
     for rel in baseline:
-        if rel not in built and rel != 'release.json':
+        if rel not in built and rel != 'release.json' and rel not in retired:
             dest = candidate / rel
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(public / rel, dest)
@@ -302,10 +313,10 @@ def assemble(source, public, candidate, config, env, documents=()):
     (candidate / '.nojekyll').write_text('', encoding='utf-8')
     legacy_file = source / 'data/legacy-routes.json'
     protected = json.loads(legacy_file.read_text(encoding='utf-8'))['published_html'] if legacy_file.exists() else []
-    missing = [rel for rel in set(baseline) | set(protected) if not (candidate / rel).is_file() and rel != 'release.json']
+    missing = [rel for rel in set(baseline) | set(protected) if not rel.startswith('en/') and not (candidate / rel).is_file() and rel != 'release.json']
     if missing:
         raise PublishError('Missing protected published paths: ' + ', '.join(sorted(missing)))
-    return {'archived_files': archived, 'archived_html': [r for r in archived if r.endswith('.html')],
+    return {'retired_english_files': retired, 'archived_files': archived, 'archived_html': [r for r in archived if r.endswith('.html')],
             'protected_baseline_files': len(baseline), 'protected_legacy_html': len(protected)}
 
 
@@ -400,6 +411,10 @@ def publish(root, args):
             # Traceable immutable source; no timestamps to cause no-op releases.
             digest = hashlib.sha256(json.dumps(file_map(candidate), sort_keys=True).encode()).hexdigest()
             save(candidate / 'release.json', {'source_commit': source_sha, 'files_sha256': digest})
+            for rel in report['retired_english_files']:
+                path = public / rel
+                path.resolve().relative_to((public / 'en').resolve())
+                path.unlink()
             for rel in file_map(candidate):
                 dest = public / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)

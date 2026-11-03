@@ -21,10 +21,10 @@ categories: ['技术']
 ```
 server {
     listen 443 ssl;
-    server_name [name].shadiao.online;
+    server_name [name].shadiao.win;
 
-    ssl_certificate /etc/letsencrypt/live/shadiao.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/shadiao.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/shadiao.win/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/shadiao.win/privkey.pem;
 
     ssl_session_timeout 5m;
     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    #加密算法
@@ -64,7 +64,7 @@ location / {
 ```
 server {
     listen 80;
-    server_name xxx.shadiao.online;
+    server_name xxx.shadiao.win;
     
     location / {
         # 重定向https

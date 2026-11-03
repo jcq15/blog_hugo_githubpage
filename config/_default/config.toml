@@ -2,6 +2,7 @@ Title =  "Shadiao Garden"
 BaseUrl = "https://blog.shadiao.win/"
 
 DefaultContentLanguage = "zh-cn"
+disableLanguages = ["en"]
 LanguageCode = "zh-CN"
 
 Theme =  "hugo-theme-next"
@@ -28,6 +29,11 @@ ignoreErrors = ["error-remote-getjson"]
 
 [sitemap]
   filename = "sitemap.xml"
+
+[[module.mounts]]
+  source = "static"
+  target = "static"
+  excludeFiles = ["en/**"]
 
 [outputFormats]
   [outputFormats.SearchIndex]

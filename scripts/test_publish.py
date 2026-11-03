@@ -105,8 +105,11 @@ def main():
     assert git(a, 'rev-parse', 'HEAD') == initial_source
     legacy = json.loads((ROOT / 'data/legacy-routes.json').read_text(encoding='utf-8'))
     retained = legacy['unresolved'] if 'unresolved' in legacy else legacy['original_unresolved']
+    candidate = Path(dry['candidate'])
     for rel in retained:
-        assert (Path(dry['candidate']) / rel).is_file()
+        assert (candidate / rel).is_file() == (not rel.startswith('en/'))
+    assert not any(p.is_file() for p in (candidate / 'en').rglob('*'))
+    assert (candidate / 'sitemap.xml').read_bytes() == (candidate / 'zh-cn/sitemap.xml').read_bytes()
     assert 'post/newurlandregularlyupdate/index.html' in dry['archived_html']
     assert 'post/markdown-syntax/index.html' in dry['archived_html']
     assert b'newurlandregularlyupdate' not in (Path(dry['candidate']) / 'index.html').read_bytes()
@@ -129,8 +132,9 @@ def main():
     assert first['source_pushed'] and first['public_pushed']
     assert first['source_commit'] == sha(source_remote) == git(a, 'rev-parse', 'HEAD')
     assert json.loads(blob(public_remote, 'master', 'release.json'))['source_commit'] == sha(source_remote)
+    assert not git(public_remote, 'ls-tree', 'master', 'en')
     for rel in first['archived_html']:
-        assert blob(public_remote, 'master', rel) == blob(public_remote, initial_public, rel)
+        assert blob(public_remote, 'master', rel) == (Path(first['candidate']) / rel).read_bytes()
     assert blob(public_remote, 'master', 'CNAME') == b'blog.example.invalid\n'
     assert (Path(first['run']) / 'public/.git').is_dir()
     assert '.blog/' not in git(source_remote, 'ls-tree', '-r', '--name-only', 'master')
