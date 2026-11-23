@@ -1,4 +1,6 @@
 ---
+githubCommentIssue: 22
+hiddenCommentIds: [6873479491, 6997210192]
 title: "人类基本科学素养与常识（草案）"
 date: 2026-11-06T11:50:56.744239+00:00
 draft: false

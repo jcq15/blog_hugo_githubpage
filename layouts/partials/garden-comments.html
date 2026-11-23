@@ -1,1 +1,23 @@
-{{ if .Site.Params.Comment.Enable }}<section class="comments"><h2>来聊两句</h2>{{ if .Site.IsServer }}<p class="muted">本地预览不连接线上评论。正式页面沿用原来的 GitHub utterances 评论与文章标题关联。</p>{{ else }}<script src="https://utteranc.es/client.js" repo="{{ .Site.Params.Comment.UtterancesRepo }}" issue-term="{{ .Site.Params.Comment.UtterancesTitle }}" theme="{{ .Site.Params.Comment.UtterancesTheme }}" crossorigin="anonymous" async></script>{{ end }}</section>{{ end }}
+{{ if .Site.Params.Comment.Enable }}
+<section class="comments">
+  <h2>来聊两句</h2>
+  {{ if .Site.IsServer }}
+    <p class="muted">本地预览不连接线上评论。</p>
+  {{ else if .Params.githubCommentIssue }}
+    {{ $repo := .Site.Params.Comment.UtterancesRepo }}
+    {{ $issue := .Params.githubCommentIssue }}
+    <div data-github-comments
+         data-repo="{{ $repo }}"
+         data-issue="{{ $issue }}"
+         data-hidden-ids="{{ with .Params.hiddenCommentIds }}{{ delimit . "," }}{{ end }}">
+      <p><a href="https://github.com/{{ $repo }}/issues/{{ $issue }}">去 GitHub 评论</a></p>
+      <p data-comment-status role="status"></p>
+      <div data-comment-list></div>
+    </div>
+    {{ $commentsJS := resources.Get "js/github-comments.js" | minify | fingerprint }}
+    <script defer src="{{ $commentsJS.RelPermalink }}"></script>
+  {{ else }}
+    <script src="https://utteranc.es/client.js" repo="{{ .Site.Params.Comment.UtterancesRepo }}" issue-term="{{ .Site.Params.Comment.UtterancesTitle }}" theme="{{ .Site.Params.Comment.UtterancesTheme }}" crossorigin="anonymous" async></script>
+  {{ end }}
+</section>
+{{ end }}
